@@ -1,0 +1,8 @@
+{
+  "leaderboard": {
+    "stats": [
+      { "key": "floors", "label": "Floors", "order": "highest" },
+      { "key": "perfects", "label": "Perfect drops", "order": "highest" }
+    ]
+  }
+}

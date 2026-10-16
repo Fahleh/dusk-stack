@@ -1,0 +1,10 @@
+{
+  "name": "dusk-stack",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A calm 3D tower-stacking browser game for start.ng.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1a1030">
+  <meta name="description" content="Stack slabs into the Lagos night sky. A calm 3D stacking game for start.ng.">
+  <title>Dusk Stack</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="importmap">
+    { "imports": { "three": "./vendor/three.module.js" } }
+  </script>
+</head>
+<body data-state="loading">
+  <canvas id="scene" aria-hidden="true"></canvas>
+
+  <div id="ui">
+    <header class="topbar">
+      <div class="chip profile" id="profile" hidden>
+        <img id="profile-face" alt="" width="36" height="36" hidden>
+        <span class="profile-text">
+          <b id="profile-name"></b>
+          <span id="profile-account"></span>
+        </span>
+        <button id="sign-in" class="pill" type="button" hidden>Sign in</button>
+      </div>
+      <button id="mute" class="chip icon" type="button" aria-pressed="false" aria-label="Mute sound">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+          <path class="spk" d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/>
+          <path class="wave" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <path class="slash" d="M4 4l16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </header>
+
+    <section id="hud" aria-label="Score">
+      <div id="score" role="status" aria-live="polite" aria-atomic="true">0</div>
+      <div class="hud-label">floors</div>
+      <div id="pips" role="img" aria-label="Perfect streak 0" data-streak="0">
+        <i></i><i></i><i></i>
+      </div>
+    </section>
+
+    <main id="title" class="card" aria-labelledby="game-name">
+      <h1 id="game-name"></h1>
+      <p class="lead">Tap to drop. Line it up.</p>
+      <p class="sub" id="title-best"></p>
+      <p class="hint">Tap, click or press Space</p>
+    </main>
+
+    <section id="over" class="card" aria-labelledby="over-title">
+      <h2 id="over-title">Tower down</h2>
+      <dl class="stats">
+        <div><dt>Floors</dt><dd id="over-floors">0</dd></div>
+        <div><dt>Perfect</dt><dd id="over-perfects">0</dd></div>
+        <div><dt>Best</dt><dd id="over-best">0</dd></div>
+      </dl>
+      <p id="over-status" class="status" role="status"></p>
+      <h3>Top players</h3>
+      <ol id="board" class="board"></ol>
+      <p id="board-note" class="note" role="status"></p>
+      <button id="again" class="primary" type="button">Play again</button>
+    </section>
+
+    <div id="fallback" role="alert" hidden>
+      <h2>Can't start the 3D view</h2>
+      <p>This game needs WebGL. Try another browser or turn on hardware acceleration.</p>
+    </div>
+  </div>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
