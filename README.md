@@ -4,7 +4,7 @@ A calm 3D tower-stacking game for [start.ng](https://start.ng). Drop slabs, line
 
 - Tap, click, or press Space or Enter to drop the sliding slab.
 - Overhang is cut off. A near-perfect drop (within 0.12 units) snaps on, keeps its full size and plays a rising note. Three perfects in a row make the next perfect grow the slab back, up to its starting size.
-- Miss completely and the tower falls. Floors and perfect drops go to the start.ng leaderboard.
+- Miss completely and the tower falls. For signed-in players, floors and perfect drops go to the start.ng leaderboard. A round with no floor placed is not saved.
 
 ## Run
 

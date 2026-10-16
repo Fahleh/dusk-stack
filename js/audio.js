@@ -51,10 +51,13 @@ export function createAudio({ muted }) {
     osc.stop(start + seconds + 0.05);
   }
 
+  // iOS Safari reports 'interrupted' (not 'suspended') after a phone call or lock screen.
+  const needsResume = () => context && context.state !== 'running' && context.state !== 'closed';
+
   /** Call from a user gesture (pointerup, keydown). Safe to call repeatedly. */
   function unlock() {
-    const ctx = ensure();
-    if (ctx && ctx.state === 'suspended') ctx.resume().catch(() => {});
+    ensure();
+    if (needsResume()) context.resume().catch(() => {});
   }
 
   /** @param {boolean} value */
@@ -85,7 +88,7 @@ export function createAudio({ muted }) {
   }
 
   function resume() {
-    if (context && context.state === 'suspended') context.resume().catch(() => {});
+    if (needsResume()) context.resume().catch(() => {});
   }
 
   return { unlock, setMuted, playDrop, playPerfect, playGameOver, suspend, resume };

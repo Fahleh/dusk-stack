@@ -290,6 +290,15 @@ export function buildScorePayload({ floors, perfects }) {
 }
 
 /**
+ * A round that never placed a floor is not worth a leaderboard row.
+ * @param {{ signedIn: boolean, floors: number }} round
+ * @returns {boolean}
+ */
+export function shouldSaveScore({ signedIn, floors }) {
+  return signedIn && floors > 0;
+}
+
+/**
  * @param {unknown} reply untrusted `startng:scoreSaved` reply (null if none came)
  * @returns {{ ok: true, improved: boolean, rank: number|null } | { ok: false, reason: string }}
  */

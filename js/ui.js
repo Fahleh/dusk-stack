@@ -65,8 +65,8 @@ export function createUi({ onMuteToggle, onSignIn, onPlayAgain, guestMode }) {
     },
 
     setMuted(muted) {
+      // The label stays fixed: aria-pressed already says whether it is on.
       el.mute.setAttribute('aria-pressed', String(muted));
-      el.mute.setAttribute('aria-label', muted ? 'Unmute sound' : 'Mute sound');
     },
 
     setBest(best) {
@@ -88,14 +88,15 @@ export function createUi({ onMuteToggle, onSignIn, onPlayAgain, guestMode }) {
       el.profile.hidden = false;
     },
 
-    /** @param {{ floors: number, perfects: number, best: number, signedIn: boolean }} round */
-    showSummary({ floors, perfects, best, signedIn }) {
+    /** @param {{ floors: number, perfects: number, best: number, signedIn: boolean, saving: boolean }} round */
+    showSummary({ floors, perfects, best, signedIn, saving }) {
       el.overFloors.textContent = String(floors);
       el.overPerfects.textContent = String(perfects);
       el.overBest.textContent = String(best);
       el.board.replaceChildren();
       el.boardNote.textContent = 'Loading the leaderboard...';
-      if (signedIn) el.status.textContent = 'Saving your score...';
+      if (saving) el.status.textContent = 'Saving your score...';
+      else if (signedIn) el.status.textContent = 'Place a floor to get on the leaderboard.';
       else el.status.textContent = guestMode ? '' : 'Sign in to save your score to the leaderboard.';
     },
 

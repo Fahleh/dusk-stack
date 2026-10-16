@@ -5,7 +5,7 @@ import { RULES, GUEST_STYLE, SKY, STYLE_OPTIONS, START_NG, SLAB_PALETTE } from '
 import {
   sliceSlab, spawnSlab, advanceSlab, slabSpeed, otherAxis, litPips, paletteColor, skyState,
   hexToRgb, rgbToHex, createRandom, normalizeStyle, sanitizeFace, normalizePlayer, playerKey, cleanText,
-  buildScorePayload, normalizeScoreReply, normalizeLeaderboard, parseBest, parseMuted,
+  buildScorePayload, shouldSaveScore, normalizeScoreReply, normalizeLeaderboard, parseBest, parseMuted,
 } from '../js/logic.js';
 
 const top = { x: 0, z: 0, w: 4, d: 4 };
@@ -365,6 +365,12 @@ test('score payload: rejects fractions, range errors and non-numbers', () => {
     assert.deepEqual(buildScorePayload({ floors: value, perfects: 1 }), { ok: false, reason: 'invalid_floors' }, String(value));
     assert.deepEqual(buildScorePayload({ floors: 1, perfects: value }), { ok: false, reason: 'invalid_perfects' }, String(value));
   }
+});
+
+test('score: only signed-in rounds with at least one floor are saved', () => {
+  assert.equal(shouldSaveScore({ signedIn: true, floors: 1 }), true);
+  assert.equal(shouldSaveScore({ signedIn: true, floors: 0 }), false);
+  assert.equal(shouldSaveScore({ signedIn: false, floors: 12 }), false);
 });
 
 test('score reply: success, rejection and junk', () => {
