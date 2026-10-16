@@ -143,7 +143,7 @@ export const SKYLINE = Object.freeze({
   color: '#0b0818',
   windowColor: '#ffc87a',
   windowsPerBuilding: 9,
-  windowSize: 0.45,
+  windowSize: 0.32,
   windowLitChance: 0.55,
   seed: 20260,
 });
@@ -228,6 +228,7 @@ export const CHARACTER = Object.freeze({
   gold: '#f4c542',
   shoe: '#241d33',
   eye: '#1d1626',
+  eyeWhite: '#f6f1ea',
   hatDark: '#1c1626',
   legHeight: 0.36,
   legWidth: 0.12,

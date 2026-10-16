@@ -143,12 +143,12 @@ body[data-state="playing"] #hud { opacity: 1; transform: none; }
 
 #score {
   font-size: clamp(72px, 16vmin, 128px);
-  font-weight: 250;
+  font-weight: 300;
   line-height: 1;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.02em;
 }
-.hud-label { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-soft); margin-top: 4px; }
+.hud-label { font-size: 12px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink); margin-top: 4px; }
 
 #pips { display: inline-flex; gap: 8px; margin-top: 12px; }
 #pips i {
@@ -258,7 +258,8 @@ body[data-state="gameover"] #over {
 .primary:active { transform: scale(0.98); }
 
 /* ------------------------------------------------------------- fallback */
-#fallback {
+#fallback,
+#no-js {
   position: fixed;
   inset: 0;
   display: grid;
@@ -270,12 +271,28 @@ body[data-state="gameover"] #over {
   pointer-events: auto;
 }
 #fallback[hidden] { display: none; }
-#fallback h2, #fallback p { margin: 0; }
-#fallback p { color: var(--ink-soft); max-width: 32ch; }
+#fallback h2, #fallback p, #no-js h2, #no-js p { margin: 0; }
+#fallback p, #no-js p { color: var(--ink-soft); max-width: 32ch; }
 
+/* Landscape phones: the summary moves to the side so the button never sits below the fold. */
 @media (max-height: 520px) {
   #title { top: 8%; padding: 14px; }
   .hint { display: none; }
+  #over {
+    left: auto;
+    right: max(var(--pad), env(safe-area-inset-right));
+    top: var(--pad);
+    bottom: var(--pad);
+    max-height: none;
+    width: min(46vw, 380px);
+    padding: 14px 16px;
+    transform: translate(0, 14px);
+  }
+  body[data-state="gameover"] #over { transform: none; }
+  .stats { margin-top: 8px; }
+  .stats dd { font-size: 24px; }
+  #over h3 { margin-top: 10px !important; }
+  .primary { position: sticky; bottom: 0; min-height: 44px; margin-top: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

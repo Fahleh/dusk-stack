@@ -27,7 +27,9 @@ const SHAPE = Object.freeze({
   ponytailRadius: 0.035,
   ponytailLength: 0.2,
   ponytailTilt: -0.6,
-  eyeRadius: 0.022,
+  eyeRadius: 0.027,
+  pupilRadius: 0.015,
+  pupilForward: 0.018,
   eyeSpread: 0.058,
   eyeForward: 0.15,
   hatLiftAfroSmall: 0.09,
@@ -138,7 +140,10 @@ function buildFigure(style, { mesh }) {
   // Head and face
   figure.add(mesh(new SphereGeometry(R, 10, 8), style.skinColor, { y: headY }));
   for (const side of [-1, 1]) {
-    figure.add(mesh(new SphereGeometry(SHAPE.eyeRadius, 6, 5), C.eye, { x: side * SHAPE.eyeSpread, y: headY + 0.01, z: SHAPE.eyeForward }));
+    // A light eye with a dark pupil stays visible on every skin colour.
+    const eyeAt = { x: side * SHAPE.eyeSpread, y: headY + 0.01, z: SHAPE.eyeForward };
+    figure.add(mesh(new SphereGeometry(SHAPE.eyeRadius, 6, 5), C.eyeWhite, eyeAt));
+    figure.add(mesh(new SphereGeometry(SHAPE.pupilRadius, 6, 5), C.eye, { ...eyeAt, z: eyeAt.z + SHAPE.pupilForward }));
   }
 
   // Hair
