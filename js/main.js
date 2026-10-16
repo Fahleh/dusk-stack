@@ -8,7 +8,7 @@ import {
   CAMERA, DEBRIS, FOG, LIGHTS, RULES, TIMING, GUEST_STYLE,
 } from './config.js';
 import {
-  hexToRgb, normalizeStyle, paletteColor, playerKey, skyState,
+  hexToRgb, normalizeStyle, paletteColor, playerKey, shouldSaveScore, skyState,
 } from './logic.js';
 import { createTower } from './tower.js';
 import { createCharacter } from './character.js';
@@ -126,8 +126,9 @@ if (renderer) {
     const best = Math.max(loadBest(), floors);
     if (floors > loadBest()) saveBest(floors);
     ui.setBest(best);
-    ui.showSummary({ floors, perfects, best, signedIn: player.signedIn });
-    if (player.signedIn) {
+    const saving = shouldSaveScore({ signedIn: player.signedIn, floors });
+    ui.showSummary({ floors, perfects, best, signedIn: player.signedIn, saving });
+    if (saving) {
       const saved = await saveScore({ floors, perfects });
       if (mine !== round) return;
       ui.setScoreResult(saved);
@@ -253,11 +254,21 @@ if (renderer) {
   }, { signal });
   window.addEventListener('focus', () => { refreshPlayer(); }, { signal });
 
-  window.addEventListener('pagehide', () => {
+  window.addEventListener('pagehide', (event) => {
     stopLoop();
+    audio.suspend();
+    // A page kept in the back/forward cache returns through pageshow with its state intact
+    // (for example Back from the start.ng sign-in), so only a real unload tears down.
+    if (event.persisted) return;
     lifetime.abort();
     [tower, character, sky, ground, skyline, effects].forEach((part) => part.dispose());
     renderer.dispose();
+  }, { signal });
+  window.addEventListener('pageshow', (event) => {
+    if (!event.persisted) return;
+    startLoop();
+    audio.resume();
+    refreshPlayer();
   }, { signal });
 
   // First frame, then reveal the game.
